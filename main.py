@@ -1,10 +1,7 @@
-import openai
 from chat import chat
 from whisper import voice_to_text
 from voicevox import text_to_voice
-from conf import APIKEY
 
-openai.api_key = APIKEY
 EXIT_PHRASE = 'exit'
 
 def main():
@@ -19,6 +16,7 @@ def main():
             {'role': 'user', 'content': text}
         )
         response = chat(messages)
+        print('This is response:'+response)
 
         if response == EXIT_PHRASE:
             exit_flag = True

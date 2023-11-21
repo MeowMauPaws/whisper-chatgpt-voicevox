@@ -1,5 +1,10 @@
 from io import BytesIO
-import openai
+from openai import OpenAI
+from conf import APIKEY
+
+client = OpenAI(
+  api_key = APIKEY,  # this is also the default, it can be omitted
+)
 import speech_recognition as sr
 
 r = sr.Recognizer()
@@ -15,5 +20,7 @@ def voice_to_text():
     audio = get_audio_from_mic()
     audio_data = BytesIO(audio.get_wav_data())
     audio_data.name = 'from_mic.wav'
-    transcript = openai.Audio.transcribe('whisper-1', audio_data)
-    return transcript['text']
+    print("Before transcript")
+    transcript = client.audio.transcriptions.create( model='whisper-1', file=audio_data, response_format="text")
+    print("After transcript")
+    return transcript
